@@ -1,0 +1,11 @@
+--- yabause/src/cd-linux.c.orig	2006-08-05 23:40:35.000000000 +0100
++++ yabause/src/cd-linux.c	2007-09-02 21:23:02.000000000 +0100
+@@ -26,7 +26,7 @@
+ #include <unistd.h>
+ #include <string.h>
+ #include <stdio.h>
+-
++#include <limits.h>
+ #include "cdbase.h"
+ #include "debug.h"
+ 
