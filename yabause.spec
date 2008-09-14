@@ -1,14 +1,16 @@
 Name:           yabause
 Version:        0.9.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
 URL:            http://yabause.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Source1:        %{name}.desktop
 Patch0:         yabause-0.8.6.addlimits_h.patch
 Patch1:         yabause-0.9.1.addselinux.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
 BuildRequires:  gtk+-devel
@@ -39,20 +41,6 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 %configure --with-gtk --enable-newperinterface
 make %{?_smp_mflags}
 
-# Build desktop icon
-cat >%{name}.desktop <<EOF
-[Desktop Entry]
-Encoding=UTF-8
-Name=Yabause
-GenericName=Sega Saturn Emulator
-Comment=%{summary}
-Exec=%{name}
-Icon=%{name}
-Terminal=false
-Type=Application
-Categories=Game;Emulator;
-EOF
-
 
 %install
 rm -rf %{buildroot}
@@ -67,7 +55,7 @@ install -pm0644 src/logo.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{
 
 desktop-file-install --vendor dribble \
                      --dir %{buildroot}%{_datadir}/applications \
-                     %{name}.desktop
+                     %{SOURCE1}
 
 
 %clean
@@ -98,6 +86,9 @@ fi
 
 
 %changelog
+* Sun Sep 14 2008 Xavier Lamien <lxntow[at]gmail.com> - 0.9.3-2
+- Update files and rebuild for rpmfusion for inclusion.
+
 * Mon Jan 21 2008 Ian Chapman <packages[AT]amiga-hardware.com> 0.9.3-1
 - Upgrade to 0.9.3
 
