@@ -1,13 +1,12 @@
 Name:           yabause
-Version:        0.9.3
-Release:        2%{?dist}
+Version:        0.9.7
+Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
 URL:            http://yabause.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
-Patch0:         yabause-0.8.6.addlimits_h.patch
 Patch1:         yabause-0.9.1.addselinux.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -31,7 +30,6 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 %prep
 %setup -q
-%patch0 -p1
 %if 0%{?fedora} > 8
 %patch1 -p1
 %endif
@@ -39,7 +37,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 %build
 %configure --with-gtk --enable-newperinterface
-make %{?_smp_mflags}
+make
 
 
 %install
@@ -86,6 +84,11 @@ fi
 
 
 %changelog
+* Sun Oct 19 2008 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.7-1
+- Updated to 0.9.7
+- Dropped addlimits patch
+- Disabled paralled build
+
 * Sun Sep 14 2008 Xavier Lamien <lxntow[at]gmail.com> - 0.9.3-2
 - Update files and rebuild for rpmfusion for inclusion.
 
