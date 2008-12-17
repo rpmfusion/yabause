@@ -1,5 +1,5 @@
 Name:           yabause
-Version:        0.9.7
+Version:        0.9.8
 Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
@@ -80,10 +80,14 @@ fi
 %{_mandir}/man1/%{name}.1.gz
 %{_datadir}/applications/dribble-%{name}.desktop
 %{_datadir}/icons/hicolor/32x32/apps/%{name}.png
-%doc AUTHORS ChangeLog COPYING GOALS README README.LIN TODO doc/howto.txt doc/using.docbook doc/yabause.docbook
+%doc AUTHORS ChangeLog COPYING GOALS README README.LIN TODO
 
 
 %changelog
+* Wed Dec 17 2008 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.8-1
+- Updated to 0.9.8
+- Dropped obsolete docs
+
 * Sun Oct 19 2008 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.7-1
 - Updated to 0.9.7
 - Dropped addlimits patch
