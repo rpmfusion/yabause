@@ -1,5 +1,5 @@
 Name:           yabause
-Version:        0.9.8
+Version:        0.9.9
 Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
@@ -37,7 +37,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 %build
 %configure --with-gtk --enable-newperinterface
-make
+make %{?_smp_mflags}
 
 
 %install
@@ -84,6 +84,10 @@ fi
 
 
 %changelog
+* Tue Jan 13 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.9-1
+- Updated to 0.9.9
+- Re-enabled parallel build
+
 * Wed Dec 17 2008 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.8-1
 - Updated to 0.9.8
 - Dropped obsolete docs
