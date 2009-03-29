@@ -1,6 +1,6 @@
 Name:           yabause
 Version:        0.9.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
@@ -84,6 +84,9 @@ fi
 
 
 %changelog
+* Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.9.9-2
+- rebuild for new F11 features
+
 * Tue Jan 13 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.9-1
 - Updated to 0.9.9
 - Re-enabled parallel build
