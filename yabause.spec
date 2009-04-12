@@ -4,7 +4,7 @@ Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
-URL:            http://yabause.sourceforge.net
+URL:            http://yabause.org
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
 Patch1:         yabause-0.9.1.addselinux.patch
