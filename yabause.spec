@@ -1,6 +1,6 @@
 Name:           yabause
-Version:        0.9.9
-Release:        2%{?dist}
+Version:        0.9.10
+Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
@@ -18,6 +18,7 @@ BuildRequires:  libGLU-devel
 BuildRequires:  libICE-devel
 BuildRequires:  libselinux-devel
 BuildRequires:  libXt-devel
+BuildRequires:  openal-devel
 BuildRequires:  pkgconfig
 BuildRequires:  SDL-devel
 Requires:       hicolor-icon-theme
@@ -36,7 +37,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 
 %build
-%configure --with-gtk --enable-newperinterface
+%configure
 make %{?_smp_mflags}
 
 
@@ -84,6 +85,11 @@ fi
 
 
 %changelog
+* Tue Jun 02 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.10-1
+- Updated to 0.9.10
+- Added openal-devel to BuildRequires
+- Dropped unnecessary configure switches, they don't change anything
+
 * Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.9.9-2
 - rebuild for new F11 features
 
