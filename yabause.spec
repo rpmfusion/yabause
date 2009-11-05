@@ -1,6 +1,6 @@
 Name:           yabause
 Version:        0.9.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
@@ -85,6 +85,9 @@ fi
 
 
 %changelog
+* Thu Nov 05 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.10-2
+- Rebuilt against openal-soft
+
 * Tue Jun 02 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.10-1
 - Updated to 0.9.10
 - Added openal-devel to BuildRequires
