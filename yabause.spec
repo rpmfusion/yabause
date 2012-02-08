@@ -1,6 +1,6 @@
 Name:           yabause
 Version:        0.9.10
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A Sega Saturn emulator
 Group:          Applications/Emulators
 License:        GPLv2+
@@ -85,6 +85,9 @@ fi
 
 
 %changelog
+* Wed Feb 08 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.9.10-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Thu Nov 05 2009 Julian Sikorski <belegdol[at]gmail[dot]com> - 0.9.10-2
 - Rebuilt against openal-soft
 
