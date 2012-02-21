@@ -1,22 +1,18 @@
 Name:           yabause
-Version:        0.9.10
-Release:        3%{?dist}
+Version:        0.9.11.1
+Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
-Group:          Applications/Emulators
 License:        GPLv2+
 URL:            http://yabause.org
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
-Patch1:         yabause-0.9.1.addselinux.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
-BuildRequires:  gtk+-devel
 BuildRequires:  gtkglext-devel
 BuildRequires:  libGLU-devel
 BuildRequires:  libICE-devel
-BuildRequires:  libselinux-devel
 BuildRequires:  libXt-devel
 BuildRequires:  openal-devel
 BuildRequires:  pkgconfig
@@ -31,13 +27,13 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 %prep
 %setup -q
-%if 0%{?fedora} > 8
-%patch1 -p1
-%endif
+sed -i 's|lib/gtkglext-1.0|%{_libdir}/gtkglext-1.0|' src/gtk/CMakeLists.txt
+sed -i 's|/usr/lib|lib|' src/gtk/CMakeLists.txt
+sed -i 's|-O3|%{optflags}|' src/CMakeLists.txt
 
 
 %build
-%configure
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF .
 make %{?_smp_mflags}
 
 
@@ -57,26 +53,22 @@ desktop-file-install --vendor dribble \
                      %{SOURCE1}
 
 
-%clean
-rm -rf %{buildroot}
-
-
 %post
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
 
 
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+
+
 %files
-%defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1.gz
 %{_datadir}/applications/dribble-%{name}.desktop
@@ -85,6 +77,13 @@ fi
 
 
 %changelog
+* Tue Feb 21 2012 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.11.1-1
+- Updated to 0.9.11.1
+- Dropped obsolete Group, Buildroot, %%clean and %%defattr
+- Updated scriptlets to the latest spec
+- Switched to cmake
+- Dropped the selinux patch
+
 * Wed Feb 08 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.9.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
