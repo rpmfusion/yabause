@@ -1,6 +1,6 @@
 Name:           yabause
 Version:        0.9.11.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
@@ -77,6 +77,9 @@ fi
 
 
 %changelog
+* Sun Mar 03 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.9.11.1-2
+- Mass rebuilt for Fedora 19 Features
+
 * Tue Feb 21 2012 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.11.1-1
 - Updated to 0.9.11.1
 - Dropped obsolete Group, Buildroot, %%clean and %%defattr
