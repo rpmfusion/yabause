@@ -1,23 +1,18 @@
 Name:           yabause
-Version:        0.9.11.1
-Release:        2%{?dist}
+Version:        0.9.12
+Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-Source1:        %{name}.desktop
 
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
-BuildRequires:  gtkglext-devel
-BuildRequires:  libGLU-devel
-BuildRequires:  libICE-devel
-BuildRequires:  libXt-devel
+BuildRequires:  libXmu-devel
 BuildRequires:  openal-devel
-BuildRequires:  pkgconfig
+BuildRequires:  qt-devel
 BuildRequires:  SDL-devel
-Requires:       hicolor-icon-theme
 
 %description
 Yabause is a Sega Saturn emulator. A popular console of the early 1990s. It
@@ -27,56 +22,35 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 %prep
 %setup -q
-sed -i 's|lib/gtkglext-1.0|%{_libdir}/gtkglext-1.0|' src/gtk/CMakeLists.txt
-sed -i 's|/usr/lib|lib|' src/gtk/CMakeLists.txt
-sed -i 's|-O3|%{optflags}|' src/CMakeLists.txt
 
 
 %build
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF .
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt .
 make %{?_smp_mflags}
 
 
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
 
-# Some cleanups
-rm -rf %{buildroot}%{_datadir}/%{name} %{buildroot}%{_datadir}/pixmaps
-rm -f %{buildroot}%{_datadir}/applications/*.desktop %{buildroot}%{_bindir}/gen68k
-
-install -pm0644 src/logo.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
-
-desktop-file-install --vendor dribble \
-                     --dir %{buildroot}%{_datadir}/applications \
-                     %{SOURCE1}
-
-
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %files
 %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1.gz
-%{_datadir}/applications/dribble-%{name}.desktop
-%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
-%doc AUTHORS ChangeLog COPYING GOALS README README.LIN TODO
+%{_datadir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/pixmaps/%{name}.png
+%doc AUTHORS ChangeLog COPYING GOALS README README.QT TODO
 
 
 %changelog
+* Tue May 14 2013 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.12-1
+- Updated to 0.9.12
+- Switched to the qt port
+- Switched to the upstream .desktop file
+
 * Sun Mar 03 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.9.11.1-2
 - Mass rebuilt for Fedora 19 Features
 
