@@ -1,5 +1,5 @@
 Name:           yabause
-Version:        0.9.12
+Version:        0.9.13.1
 Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
@@ -25,7 +25,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 
 %build
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt .
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
 make %{?_smp_mflags}
 
 
@@ -46,6 +46,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Apr 29 2014 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.13.1-1
+- Updated to 0.9.13.1
+- Ensured optimization level -O2 is used
+
 * Tue May 14 2013 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.12-1
 - Updated to 0.9.12
 - Switched to the qt port
