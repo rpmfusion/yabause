@@ -1,5 +1,5 @@
 Name:           yabause
-Version:        0.9.13.1
+Version:        0.9.14
 Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
@@ -46,6 +46,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jun 06 2015 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.14-1
+- Updated to 0.9.14
+
+* Mon Sep 01 2014 Sérgio Basto <sergio@serjux.com> - 0.9.13.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Tue Apr 29 2014 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.13.1-1
 - Updated to 0.9.13.1
 - Ensured optimization level -O2 is used
