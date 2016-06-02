@@ -1,6 +1,8 @@
+%undefine _hardened_build
+
 Name:           yabause
 Version:        0.9.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
@@ -25,6 +27,12 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 
 %build
+CFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
+CXXFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
+
+export CFLAGS
+export CXXFLAGS
+
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
 make %{?_smp_mflags}
 
@@ -46,6 +54,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Thu Jun 02 2016 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.14-2
+- Disabled hardened build for now, assembly is not ready
+
 * Sat Jun 06 2015 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.14-1
 - Updated to 0.9.14
 
