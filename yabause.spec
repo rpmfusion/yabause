@@ -1,20 +1,26 @@
 %undefine _hardened_build
 
 Name:           yabause
-Version:        0.9.14
-Release:        2%{?dist}
+Version:        0.9.15
+Release:        1%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
-Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Source0:        https://download.tuxfamily.org/%{name}/releases/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
+BuildRequires:  glew-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  openal-devel
-BuildRequires:  qt-devel
-BuildRequires:  SDL-devel
+%if 0%{?fedora} >= 25
+BuildRequires:  libXi-devel
+BuildRequires:  qt5-devel
+%else
+BuildRequires:  qt4-devel
+%endif
+BuildRequires:  SDL2-devel
 
 %description
 Yabause is a Sega Saturn emulator. A popular console of the early 1990s. It
@@ -23,8 +29,13 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 
 %prep
-%setup -q
+%autosetup
 
+#fix end-of-line encoding
+find \( -name \*.c\* -or -name \*.h\* -or -name AUTHORS \) -exec sed -i 's/\r$//' {} \;
+
+#fix permissions
+find \( -name \*.c\* -or -name \*.h\* \) -exec chmod -x {} \;
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
@@ -34,12 +45,11 @@ export CFLAGS
 export CXXFLAGS
 
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%make_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -50,10 +60,18 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
-%doc AUTHORS ChangeLog COPYING GOALS README README.QT TODO
+%doc AUTHORS ChangeLog COPYING README
 
 
 %changelog
+* Sat Oct 29 2016 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.15-1
+- Updated to 0.9.15
+- Use Qt5 on F25 and above
+- Switched to SDL2
+- Updated Source0 URL
+- Fixed permissions and end-of-line encoding rpmlint warnings/errors
+- Modernised the .spec file
+
 * Thu Jun 02 2016 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.14-2
 - Disabled hardened build for now, assembly is not ready
 
