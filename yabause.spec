@@ -50,6 +50,7 @@ export CXXFLAGS
 %else
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
     -DSH2_DYNAREC:BOOL=OFF .
+%endif
 %make_build
 
 
