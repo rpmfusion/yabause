@@ -44,7 +44,12 @@ CXXFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
 export CFLAGS
 export CXXFLAGS
 
+#arm dynarec is broken
+%ifarch %{ix86} x86_64
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
+%else
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
+    -DSH2_DYNAREC:BOOL=OFF .
 %make_build
 
 
@@ -71,6 +76,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 - Updated Source0 URL
 - Fixed permissions and end-of-line encoding rpmlint warnings/errors
 - Modernised the .spec file
+- Disabled dynarec on arm
 
 * Thu Jun 02 2016 Julian Sikorski <belegdol@fedoraproject.org> - 0.9.14-2
 - Disabled hardened build for now, assembly is not ready
