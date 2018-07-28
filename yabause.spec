@@ -2,13 +2,16 @@
 
 Name:           yabause
 Version:        0.9.15
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
 Source0:        https://download.tuxfamily.org/%{name}/releases/%{version}/%{name}-%{version}.tar.gz
+# https://github.com/Yabause/yabause/commit/06a816c032c6f7fd79ced6e594dd4b33571a0e73
+Patch0:         Fix_qt_5.11.patch
 
-BuildRequires:  cmake
+BuildRequires:  cmake3
+BuildRequires:  dos2unix
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
 BuildRequires:  glew-devel
@@ -29,7 +32,10 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 
 
 %prep
-%autosetup
+%setup
+# Fix the dos crap to make patching easy
+dos2unix src/qt/ui/*
+%patch0 -p2
 
 #fix end-of-line encoding
 find \( -name \*.c\* -or -name \*.h\* -or -name AUTHORS \) -exec sed -i 's/\r$//' {} \;
@@ -46,9 +52,9 @@ export CXXFLAGS
 
 #arm dynarec is broken
 %ifarch %{ix86} x86_64
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
+%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
 %else
-%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
+%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
     -DSH2_DYNAREC:BOOL=OFF .
 %endif
 %make_build
@@ -70,6 +76,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jul 28 2018 Leigh Scott <leigh123linux@googlemail.com> - 0.9.15-6
+- Fix qt 5.11 build
+
 * Fri Jul 27 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.9.15-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
