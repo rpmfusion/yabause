@@ -2,7 +2,7 @@
 
 Name:           yabause
 Version:        0.9.15
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        A Sega Saturn emulator
 License:        GPLv2+
 URL:            http://yabause.org
@@ -76,6 +76,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Mar 05 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.9.15-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Sun Sep 30 2018 Sérgio Basto <sergio@serjux.com> - 0.9.15-8
 - Rebuild for glew 2.1.0
 
