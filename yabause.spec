@@ -1,4 +1,5 @@
 %undefine _hardened_build
+%undefine __cmake_in_source_build
 
 Name:           yabause
 Version:        0.9.15
@@ -19,7 +20,8 @@ BuildRequires:  libXmu-devel
 BuildRequires:  openal-devel
 %if 0%{?fedora} >= 25
 BuildRequires:  libXi-devel
-BuildRequires:  qt5-devel
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtmultimedia-devel
 %else
 BuildRequires:  qt4-devel
 %endif
@@ -52,16 +54,16 @@ export CXXFLAGS
 
 #arm dynarec is broken
 %ifarch %{ix86} x86_64
-%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 .
+%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2
 %else
 %cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
-    -DSH2_DYNAREC:BOOL=OFF .
+    -DSH2_DYNAREC:BOOL=OFF
 %endif
-%make_build
+%cmake3_build
 
 
 %install
-%make_install
+%cmake3_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
