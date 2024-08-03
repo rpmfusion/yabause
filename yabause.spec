@@ -37,7 +37,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 %setup
 # Fix the dos crap to make patching easy
 dos2unix src/qt/ui/*
-%patch0 -p2
+%patch -P0 -p2
 
 #fix end-of-line encoding
 find \( -name \*.c\* -or -name \*.h\* -or -name AUTHORS \) -exec sed -i 's/\r$//' {} \;
