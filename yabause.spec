@@ -17,7 +17,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
 BuildRequires:  glew-devel
 BuildRequires:  libXmu-devel
-BuildRequires:  openal-devel
+BuildRequires:  openal-soft-devel
 %if 0%{?fedora} >= 25
 BuildRequires:  libXi-devel
 BuildRequires:  qt5-qtbase-devel
