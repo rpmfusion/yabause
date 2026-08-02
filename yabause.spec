@@ -1,5 +1,4 @@
 %undefine _hardened_build
-%undefine __cmake_in_source_build
 
 Name:           yabause
 Version:        0.9.15
@@ -10,8 +9,9 @@ URL:            http://yabause.org
 Source0:        https://download.tuxfamily.org/%{name}/releases/%{version}/%{name}-%{version}.tar.gz
 # https://github.com/Yabause/yabause/commit/06a816c032c6f7fd79ced6e594dd4b33571a0e73
 Patch0:         Fix_qt_5.11.patch
+Patch1:         cmake-4.patch
 
-BuildRequires:  cmake3
+BuildRequires:  cmake
 BuildRequires:  dos2unix
 BuildRequires:  desktop-file-utils
 BuildRequires:  freeglut-devel
@@ -38,6 +38,7 @@ but optionally a real Saturn BIOS can be used, however it is not included.
 # Fix the dos crap to make patching easy
 dos2unix src/qt/ui/*
 %patch -P0 -p2
+%patch -P1 -p1
 
 #fix end-of-line encoding
 find \( -name \*.c\* -or -name \*.h\* -or -name AUTHORS \) -exec sed -i 's/\r$//' {} \;
@@ -54,16 +55,16 @@ export CXXFLAGS
 
 #arm dynarec is broken
 %ifarch %{ix86} x86_64
-%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2
 %else
-%cmake3 -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
+%cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DYAB_PORTS=qt -DYAB_OPTIMIZATION=-O2 \
     -DSH2_DYNAREC:BOOL=OFF
 %endif
-%cmake3_build
+%cmake_build
 
 
 %install
-%cmake3_install
+%cmake_install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -74,7 +75,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
-%doc AUTHORS ChangeLog COPYING README
+%license COPYING
+%doc AUTHORS ChangeLog README
 
 
 %changelog

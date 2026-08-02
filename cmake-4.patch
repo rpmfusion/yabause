@@ -1,0 +1,62 @@
+Description: Fix FTBFS with CMake 4
+Author: Adrian Bunk <bunk@debian.org>
+Bug-Debian: https://bugs.debian.org/1113650
+
+--- yabause-0.9.15.orig/CMakeLists.txt
++++ yabause-0.9.15/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ project(yabause)
+ 
+-cmake_minimum_required(VERSION 2.8)
++cmake_minimum_required(VERSION 3.5)
+ 
+ set(YAB_PACKAGE yabause)
+ set(YAB_VERSION_MAJOR 0)
+--- yabause-0.9.15.orig/src/CMakeLists.txt
++++ yabause-0.9.15/src/CMakeLists.txt
+@@ -4,7 +4,7 @@ include (CheckCSourceCompiles)
+ include(CheckFunctionExists)
+ include(CheckIncludeFile)
+ 
+-cmake_minimum_required(VERSION 2.8)
++cmake_minimum_required(VERSION 3.5)
+ 
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeTests)
+ 
+--- yabause-0.9.15.orig/src/c68k/CMakeLists.txt
++++ yabause-0.9.15/src/c68k/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ project(gen68k)
+ 
+-cmake_minimum_required(VERSION 2.6)
++cmake_minimum_required(VERSION 3.5)
+ 
+ include(CheckCSourceCompiles)
+ 
+--- yabause-0.9.15.orig/src/musashi/CMakeLists.txt
++++ yabause-0.9.15/src/musashi/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ project(m68kmake)
+ 
+-cmake_minimum_required(VERSION 2.6)
++cmake_minimum_required(VERSION 3.5)
+ 
+ add_executable(m68kmake m68kmake.c)
+ 
+--- yabause-0.9.15.orig/src/runner/CMakeLists.txt
++++ yabause-0.9.15/src/runner/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ project(yabause-runner)
+ 
+-cmake_minimum_required(VERSION 2.8)
++cmake_minimum_required(VERSION 3.5)
+ 
+ yab_port_start()
+ 
+@@ -15,4 +15,4 @@ find_package(Threads)
+ add_executable(yabause-runner yui.cpp)
+ target_link_libraries(yabause-runner yabause ${YABAUSE_LIBRARIES} ${PORT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+ 
+-yab_port_success(yabause-runner)
+\ No newline at end of file
++yab_port_success(yabause-runner)
